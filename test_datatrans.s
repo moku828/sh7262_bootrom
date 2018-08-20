@@ -326,6 +326,17 @@ test_25:
         MOV     #25, R13
 
         MOV     #1, R14
+        MOV     #0xFF, R5
+        MOV     R2, R7
+        MOV     R7, R6
+        ADD     #0x7F, R6
+        ADD     #0x7F, R6
+        ADD     #2, R6
+        MOV.B   R5, @R6
+        MOVU.B  @(0x0100,R7), R0
+        MOVI20  #0x000FF, R5
+        CMP/EQ  R5, R0
+        BF      test_25_failed
 
         BRA     test_26
 	NOP
@@ -340,6 +351,17 @@ test_26:
         MOV     #26, R13
 
         MOV     #1, R14
+        MOV     #0xFF, R5
+        MOV     R2, R7
+        MOV     R7, R6
+        ADD     #0x7F, R6
+        ADD     #0x7F, R6
+        ADD     #2, R6
+        MOV.W   R5, @R6
+        MOVU.W  @(0x0100,R7), R0
+        MOVI20  #0x0FFFF, R5
+        CMP/EQ  R5, R0
+        BF      test_26_failed
 
         BRA     test_27
 	NOP
@@ -349,16 +371,172 @@ test_26_failed:
 	NOP
 
 test_27:
-        /* mov.l @-Rm,R0 */
-        /* Rm-1 -> Rm, (Rm) -> R0 */
+        /* movrt Rn */
+        /* ~T -> Rn */
         MOV     #27, R13
 
         MOV     #1, R14
+        MOV     #0, R0
+        SETT
+        MOVRT   R0
+        CMP/EQ  #0, R0
+        BF      test_27_failed
+        NOP
+        MOV     #2, R14
+        MOV     #1, R0
+        CLRT
+        MOVRT   R0
+        CMP/EQ  #1, R0
+        BF      test_27_failed
+        NOP
+
+        BRA     test_28
+	NOP
+
+test_27_failed:
+        BRA     test_28_failed
+	NOP
+
+test_28:
+        /* movml.l Rm,@-R15 */
+        /* R15-4 -> R15, Rm -> (R15) */
+        /* R15-4 -> R15, Rm-1 -> (R15) */
+        /*           .               */
+        /*           .               */
+        /* R15-4 -> R15, R0 -> (R15) */
+        MOV     #28, R13
+
+        MOV     #1, R14
+        MOV     R2, R15
+        ADD     #4, R15
+        MOVI20  #0x5A000, R0
+        MOVML.L R0, @-R15
+        CMP/EQ  R15, R2
+        BF      test_28_failed
+        NOP
+        MOVI20  #0x5A000, R3
+        MOV.L   @(0,R2), R0
+        CMP/EQ  R3, R0
+        NOP
+        BF      test_28_failed
+        NOP
+
+        MOV     #2, R14
+        MOV     R2, R15
+        ADD     #16, R15
+        MOVI20  #0x5A000, R0
+        MOVI20  #0x5A333, R3
+        MOVML.L R3, @-R15
+        CMP/EQ  R15, R2
+        BF      test_28_failed
+        NOP
+        MOV.L   @(12,R2), R0
+        CMP/EQ  R3, R0
+        NOP
+        BF      test_28_failed
+        NOP
+        MOVI20  #0x5A000, R3
+        MOV.L   @(0,R2), R0
+        CMP/EQ  R3, R0
+        NOP
+        BF      test_28_failed
+        NOP
+
+        MOV     #3, R14
+        MOV     R2, R15
+        ADD     #64, R15
+        MOVI20  #0x5A000, R0
+        MOVI20  #0x5A333, R3
+        MOVML.L R15, @-R15
+        CMP/EQ  R15, R2
+        BF      test_28_failed
+        NOP
+        MOV.L   @(12,R2), R0
+        CMP/EQ  R3, R0
+        NOP
+        BF      test_28_failed
+        NOP
+        MOVI20  #0x5A000, R3
+        MOV.L   @(0,R2), R0
+        CMP/EQ  R3, R0
+        NOP
+        BF      test_28_failed
+        NOP
+
+        BRA     test_29
+	NOP
+
+test_28_failed:
+        BRA     test_29_failed
+	NOP
+
+test_29:
+        /* movml.l @R15+,Rn */
+        /* (R15) -> R0, R15+4 -> R15 */
+        /* (R15) -> R1, R15+4 -> R15 */
+        /*           .               */
+        /*           .               */
+        /* (R15) -> Rn, R15+4 -> R15 */
+        MOV     #29, R13
+
+        MOV     #1, R14
+        MOV     R2, R15
+        MOVI20  #0x5A000, R0
+        ADD     #4, R15
+        MOV.L   R0, @-R15
+        MOVML.L @R15+, R0
+        MOV     R2, R5
+        ADD     #4, R5
+        CMP/EQ  R15, R5
+        BF      test_29_failed
+        NOP
+        MOVI20  #0x5A000, R3
+        CMP/EQ  R3, R0
+        NOP
+        BF      test_29_failed
+        NOP
+
+        MOV     #2, R14
+        MOV     R2, R15
+        MOVI20  #0x5A000, R0
+        ADD     #16, R15
+        MOV.L   R3, @-R15
+        MOV.L   R2, @-R15
+        MOV.L   R1, @-R15
+        MOV.L   R0, @-R15
+        MOVML.L @R15+, R3
+        MOV     R2, R5
+        ADD     #16, R5
+        CMP/EQ  R15, R5
+        BF      test_29_failed
+        NOP
+        MOVI20  #0x5A000, R3
+        CMP/EQ  R3, R0
+        NOP
+        BF      test_29_failed
+        NOP
+
+        MOV     #3, R14
+        MOV     R2, R15
+        MOVI20  #0x5A000, R0
+        ADD     #64, R15
+        MOVML.L R15, @-R15
+        MOVML.L @R15+, R15
+        MOV     R2, R5
+        ADD     #64, R5
+        CMP/EQ  R15, R5
+        BF      test_29_failed
+        NOP
+        MOVI20  #0x5A000, R3
+        CMP/EQ  R3, R0
+        NOP
+        BF      test_29_failed
+        NOP
 
         BRA     test_datatrans_succeed
 	NOP
 
-test_27_failed:
+test_29_failed:
         BRA     test_datatrans_failed
 	NOP
 
