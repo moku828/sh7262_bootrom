@@ -533,10 +533,33 @@ test_29:
         BF      test_29_failed
         NOP
 
-        BRA     test_datatrans_succeed
+        BRA     test_30
 	NOP
 
 test_29_failed:
+        BRA     test_30_failed
+	NOP
+
+test_30:
+        /* nott */
+        /* ~T -> T */
+        MOV     #30, R13
+
+        MOV     #1, R14
+        SETT
+        NOTT
+        BT      test_30_failed
+        NOP
+        MOV     #2, R14
+        CLRT
+        NOTT
+        BF      test_30_failed
+        NOP
+
+        BRA     test_datatrans_succeed
+	NOP
+
+test_30_failed:
         BRA     test_datatrans_failed
 	NOP
 
