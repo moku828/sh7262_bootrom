@@ -1,6 +1,6 @@
 OUTPUT_FORMAT("elf32-sh");
-OUTPUT_ARCH(sh2);
-ENTRY("boot_mode1");
+OUTPUT_ARCH(sh2a-nofpu);
+ENTRY("test_start");
 /* SH72620 Available Memory */
 MEMORY
 {
