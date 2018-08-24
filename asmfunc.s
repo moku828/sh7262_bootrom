@@ -20,6 +20,20 @@ test_start:
         CMP/EQ  #0, R0
         BF      test_failed
         NOP
+        MOV.L   _test_sysctrl, R0
+        JSR     @R0
+        NOP
+        MOV     R12, R0
+        CMP/EQ  #0, R0
+        BF      test_failed
+        NOP
+        MOV.L   _test_bra, R0
+        JSR     @R0
+        NOP
+        MOV     R12, R0
+        CMP/EQ  #0, R0
+        BF      test_failed
+        NOP
         BRA     test_succeed
         NOP
 
@@ -28,6 +42,10 @@ _test_bitop:
         .long   test_bitop
 _test_datatrans:
         .long   test_datatrans
+_test_sysctrl:
+        .long   test_sysctrl
+_test_bra:
+        .long   test_bra
 
 test_succeed:
         BRA     test_succeed
