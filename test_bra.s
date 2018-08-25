@@ -24,7 +24,7 @@ test_33:
         BT      test_33_failed
         NOP
 
-        BRA     test_34
+        BRA     test_bra_succeed
         NOP
 
 _back_test_33:
@@ -33,19 +33,6 @@ _back_test_33:
         RTS/N
 
 test_33_failed:
-        BRA     test_34_failed
-	NOP
-
-test_34:
-        MOV     #34, R13
-
-        MOV     #1, R14
-        MOV     #0xFF, R0
-
-        BRA     test_bra_succeed
-	NOP
-
-test_34_failed:
         BRA     test_bra_failed
 	NOP
 
