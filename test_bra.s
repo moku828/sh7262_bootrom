@@ -25,7 +25,7 @@ test_33:
         BT      test_33_failed
         NOP
 
-        BRA     test_bra_succeed
+        BRA     test_45
         NOP
 
 _back_test_33:
@@ -34,6 +34,38 @@ _back_test_33:
         RTS/N
 
 test_33_failed:
+        BRA     test_45_failed
+	NOP
+
+test_45:
+        /* rtv/n Rm */
+        /* Rm -> R0 */
+        /* PR -> PC */
+        MOV     #45, R13
+
+        MOV     #1, R14
+        MOV     R2, R15
+        ADD     #4, R15
+        MOVMU.L R15, @-R15
+        MOV     #0, R1
+        MOV.L   back_test_45, R0
+        JSR/N   @R0
+        MOVMU.L @R15+, R15
+
+        MOV     #1, R3
+        CMP/EQ  R1, R3
+        BF      test_45_failed
+        NOP
+
+        BRA     test_bra_succeed
+        NOP
+
+_back_test_45:
+
+        MOV     #1, R1
+        RTV/N   R1
+
+test_45_failed:
         BRA     test_bra_failed
 	NOP
 
@@ -54,3 +86,6 @@ _jump_table:
         .long   _back_test_33
         .long   0
         .long   0
+back_test_45:
+        .long   _back_test_45
+
