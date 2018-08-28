@@ -4,6 +4,7 @@
 
 test_fpop:
         BRA     test_41
+        NOP
 
 test_41:
         /* fmov.s @(disp12,Rm),FRn */

@@ -4,6 +4,7 @@
 
 test_arithop:
         BRA     test_34
+        NOP
 
 test_34:
         /* clips.b Rn */

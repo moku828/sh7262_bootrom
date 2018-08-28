@@ -4,6 +4,7 @@
 
 test_datatrans:
         BRA     test_13
+        NOP
 
 test_13:
         /* mov.b R0,@Rn+ */

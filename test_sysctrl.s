@@ -4,6 +4,7 @@
 
 test_sysctrl:
         BRA     test_31
+        NOP
 
 test_31:
         /* ldc Rm,TBR */

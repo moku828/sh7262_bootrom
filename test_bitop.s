@@ -4,6 +4,7 @@
 
 test_bitop:
         BRA     test_1
+        NOP
 
 test_1:
         /* bld #imm3,Rn */

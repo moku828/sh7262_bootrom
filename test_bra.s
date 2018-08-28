@@ -4,6 +4,7 @@
 
 test_bra:
         BRA     test_33
+        NOP
 
 test_33:
         /* jsr/n @@(disp8, TBR) */
