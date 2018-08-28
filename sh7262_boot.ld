@@ -1,5 +1,5 @@
 OUTPUT_FORMAT("elf32-sh");
-OUTPUT_ARCH(sh2a-nofpu);
+OUTPUT_ARCH(sh2a);
 ENTRY("test_start");
 /* SH72620 Available Memory */
 MEMORY

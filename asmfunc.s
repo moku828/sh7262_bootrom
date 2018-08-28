@@ -41,6 +41,13 @@ test_start:
         CMP/EQ  #0, R0
         BF      test_failed
         NOP
+        MOV.L   _test_fpop, R0
+        JSR     @R0
+        NOP
+        MOV     R12, R0
+        CMP/EQ  #0, R0
+        BF      test_failed
+        NOP
         BRA     test_succeed
         NOP
 
@@ -55,6 +62,8 @@ _test_bra:
         .long   test_bra
 _test_arithop:
         .long   test_arithop
+_test_fpop:
+        .long   test_fpop
 
 test_succeed:
         BRA     test_succeed
