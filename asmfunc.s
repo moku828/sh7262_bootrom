@@ -81,6 +81,21 @@ _valuew:
 	.byte	0x00
 	.byte	0x00
 	.byte	0x00
+        .long   0
+        .long   0
+        .long   0
+        .long   0
+        .long   0
+        .long   0
+        .long   0
+        .long   0
+        .long   0
+        .long   0
+        .long   0
+        .long   0
+        .long   0
+        .long   0
+        .long   0
 
 .section .text, "ax"
 

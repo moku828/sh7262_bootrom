@@ -156,10 +156,169 @@ test_37:
         BF      test_37_failed
         NOP
 
-        BRA     test_arithop_succeed
+        BRA     test_38
         NOP
 
 test_37_failed:
+        BRA     test_38_failed
+	NOP
+
+test_38:
+        /* divs R0,Rn */
+        /* signed, Rn / R0 -> Rn */
+        MOV     #38, R13
+
+        MOV     #1, R14
+        MOVI20  #3, R0
+        MOVI20  #6, R1
+        DIVS    R0, R1
+        MOVI20  #2, R0
+        CMP/EQ  R0, R1
+        BF      test_38_failed
+        NOP
+
+        MOV     #2, R14
+        MOVI20  #-3, R0
+        MOVI20  #6, R1
+        DIVS    R0, R1
+        MOVI20  #-2, R0
+        CMP/EQ  R0, R1
+        BF      test_38_failed
+        NOP
+
+        MOV     #3, R14
+        MOVI20  #3, R0
+        MOVI20  #-6, R1
+        DIVS    R0, R1
+        MOVI20  #-2, R0
+        CMP/EQ  R0, R1
+        BF      test_38_failed
+        NOP
+
+        MOV     #4, R14
+        MOVI20  #-3, R0
+        MOVI20  #-6, R1
+        DIVS    R0, R1
+        MOVI20  #2, R0
+        CMP/EQ  R0, R1
+        BF      test_38_failed
+        NOP
+
+        MOV     #5, R14
+        MOVI20  #2, R0
+        MOV.L   signed_long_max, R1
+        DIVS    R0, R1
+        MOV.L   exp_signed_long_max_divided_by_2, R0
+        CMP/EQ  R0, R1
+        BF      test_39_failed
+        NOP
+
+        MOV     #6, R14
+        MOVI20  #2, R0
+        MOV.L   signed_long_min, R1
+        DIVS    R0, R1
+        MOV.L   exp_signed_long_min_divided_by_2, R0
+        CMP/EQ  R0, R1
+        BF      test_39_failed
+        NOP
+
+        MOV     #7, R14
+        MOV.L   vbr_divide_exception, R0
+        MOV.L   back_1_test_38, R1
+        MOV.L   R1, @(68,R0)
+        LDC     R0, VBR
+        MOVI20  #0, R0
+        MOVI20  #6, R1
+        DIVS    R0, R1
+_back_2_test_38:
+        MOVI20  #6, R0
+        CMP/EQ  R0, R1
+        BF      test_38_failed
+        NOP
+
+        MOV     #8, R14
+        MOV.L   vbr_divide_exception, R0
+        MOV.L   back_3_test_38, R1
+        MOV.L   R1, @(72,R0)
+        LDC     R0, VBR
+        MOVI20  #-1, R0
+        MOV.L   signed_long_min, R1
+        DIVS    R0, R1
+_back_4_test_38:
+        MOV.L   signed_long_min, R0
+        CMP/EQ  R0, R1
+        BF      test_38_failed
+        NOP
+
+        BRA     test_39
+        NOP
+
+        .align 4
+back_1_test_38:
+        .long   _back_1_test_38
+_back_1_test_38:
+        BRA     _back_2_test_38
+        NOP
+
+        .align 4
+back_3_test_38:
+        .long   _back_3_test_38
+_back_3_test_38:
+        BRA     _back_4_test_38
+        NOP
+
+test_38_failed:
+        BRA     test_39_failed
+	NOP
+
+test_39:
+        /* divu R0,Rn */
+        /* unsigned, Rn / R0 -> Rn */
+        MOV     #39, R13
+
+        MOV     #1, R14
+        MOVI20  #3, R0
+        MOVI20  #6, R1
+        DIVU    R0, R1
+        MOVI20  #2, R0
+        CMP/EQ  R0, R1
+        BF      test_39_failed
+        NOP
+
+        MOV     #2, R14
+        MOVI20  #2, R0
+        MOV.L   unsigned_long_max, R1
+        DIVU    R0, R1
+        MOV.L   exp_unsigned_long_max_divided_by_2, R0
+        CMP/EQ  R0, R1
+        BF      test_39_failed
+        NOP
+
+        MOV     #3, R14
+        MOV.L   vbr_divide_exception, R0
+        MOV.L   back_1_test_39, R1
+        MOV.L   R1, @(68,R0)
+        LDC     R0, VBR
+        MOVI20  #0, R0
+        MOVI20  #6, R1
+        DIVU    R0, R1
+_back_2_test_39:
+        MOVI20  #6, R0
+        CMP/EQ  R0, R1
+        BF      test_39_failed
+        NOP
+
+        BRA     test_arithop_succeed
+        NOP
+
+        .align 4
+back_1_test_39:
+        .long   _back_1_test_39
+_back_1_test_39:
+        BRA     _back_2_test_39
+        NOP
+
+test_39_failed:
         BRA     test_arithop_failed
 	NOP
 
@@ -172,3 +331,45 @@ test_arithop_succeed:
         RTS
         NOP
 
+        .align 4
+unsigned_long_max:
+        .long 0xFFFFFFFF
+unsigned_long_min:
+        .long 0x00000000
+signed_long_max:
+        .long 0x7FFFFFFF
+signed_long_min:
+        .long 0x80000000
+exp_unsigned_long_max_divided_by_2:
+        .long 0x7FFFFFFF
+exp_signed_long_max_divided_by_2:
+        .long 0x3FFFFFFF
+exp_signed_long_min_divided_by_2:
+        .long 0xC0000000
+vbr_divide_exception:
+        .long _vbr_divide_exception
+
+.section .bss, "aw"
+_vbr_divide_exception:
+        .long 0x00000000 /* 0 */
+        .long 0x00000000 /* 1 */
+        .long 0x00000000 /* 2 */
+        .long 0x00000000 /* 3 */
+        .long 0x00000000 /* 4 */
+        .long 0x00000000 /* 5 */
+        .long 0x00000000 /* 6 */
+        .long 0x00000000 /* 7 */
+        .long 0x00000000 /* 8 */
+        .long 0x00000000 /* 9 */
+        .long 0x00000000 /* 10 */
+        .long 0x00000000 /* 11 */
+        .long 0x00000000 /* 12 */
+        .long 0x00000000 /* 13 */
+        .long 0x00000000 /* 14 */
+        .long 0x00000000 /* 15 */
+        .long 0x00000000 /* 16 */
+        .long 0x00000000 /* 17 */
+        .long 0x00000000 /* 18 */
+        .long 0x00000000 /* 19 */
+
+.section .text, "ax"
