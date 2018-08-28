@@ -308,7 +308,7 @@ _back_2_test_39:
         BF      test_39_failed
         NOP
 
-        BRA     test_arithop_succeed
+        BRA     test_40
         NOP
 
         .align 4
@@ -319,6 +319,27 @@ _back_1_test_39:
         NOP
 
 test_39_failed:
+        BRA     test_40_failed
+	NOP
+
+test_40:
+        /* mulr R0,Rn */
+        /* R0 x Rn -> Rn */
+        MOV     #40, R13
+
+        MOV     #1, R14
+        MOVI20  #3, R0
+        MOVI20  #2, R1
+        MULR    R0, R1
+        MOVI20  #6, R0
+        CMP/EQ  R0, R1
+        BF      test_40_failed
+        NOP
+
+        BRA     test_arithop_succeed
+        NOP
+
+test_40_failed:
         BRA     test_arithop_failed
 	NOP
 
