@@ -141,7 +141,7 @@ test_44_failed:
 	NOP
 
 test_fpop_failed:
-        ADD     #1, R12
+        ADD     #6, R12
         RTS
         NOP
 

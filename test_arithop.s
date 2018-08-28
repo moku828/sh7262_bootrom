@@ -345,7 +345,7 @@ test_40_failed:
 	NOP
 
 test_arithop_failed:
-        ADD     #3, R12
+        ADD     #5, R12
         RTS
         NOP
 

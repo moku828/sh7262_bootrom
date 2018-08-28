@@ -38,7 +38,7 @@ test_33_failed:
 	NOP
 
 test_bra_failed:
-        ADD     #3, R12
+        ADD     #4, R12
         RTS
         NOP
 
