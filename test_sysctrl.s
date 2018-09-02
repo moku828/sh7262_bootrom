@@ -86,10 +86,36 @@ back_1_test_46_:
 
 exit_test46:
 
-        BRA     test_sysctrl_succeed
+        BRA     test_47
 	NOP
 
 test_46_failed:
+        BRA     test_47_failed
+	NOP
+
+test_47:
+        /* ldbank */
+        /* (selected register bank entry) -> R0 */
+        MOV     #47, R13
+
+        MOV     #1, R14
+        MOV.L   bn0_en3, R3
+        LDBANK  @R3, R0
+        MOV     #0, R3
+        CMP/EQ  R3, R0
+        BF      test_47_failed
+        NOP
+        MOV.L   bn0_en16, R3
+        LDBANK  @R3, R0
+        MOV     #64, R3
+        CMP/EQ  R3, R0
+        BF      test_47_failed
+        NOP
+
+        BRA     test_sysctrl_succeed
+	NOP
+
+test_47_failed:
         BRA     test_sysctrl_failed
 	NOP
 
@@ -105,6 +131,14 @@ test_sysctrl_succeed:
         .align 4
 imask_f:
         .long 0x000000F0
+bn0_en3:
+        .long _bn0_en3
+_bn0_en3:
+        .long 0x0000000C
+bn0_en16:
+        .long _bn0_en16
+_bn0_en16:
+        .long 0x00000040
 back_1_test_46:
         .long   back_1_test_46_
 vbr_IRQ:
