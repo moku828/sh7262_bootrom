@@ -112,10 +112,32 @@ test_47:
         BF      test_47_failed
         NOP
 
-        BRA     test_sysctrl_succeed
+        BRA     test_48
 	NOP
 
 test_47_failed:
+        BRA     test_48_failed
+	NOP
+
+test_48:
+        /* stbank */
+        /* R0 -> (selected register bank entry) */
+        MOV     #48, R13
+
+        MOV     #1, R14
+        MOV     #1, R0
+        MOV.L   bn0_en3, R3
+        STBANK  R0, @R3
+        LDBANK  @R3, R0
+        MOV     #1, R3
+        CMP/EQ  R3, R0
+        BF      test_48_failed
+        NOP
+
+        BRA     test_sysctrl_succeed
+	NOP
+
+test_48_failed:
         BRA     test_sysctrl_failed
 	NOP
 
