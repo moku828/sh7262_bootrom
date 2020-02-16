@@ -1,4 +1,5 @@
 all:
+	sh-elf-gcc -c -g -o main.o main.c
 	sh-elf-gcc -c -Wa,-gstabs -o asmfunc.o asmfunc.s
 	sh-elf-gcc -c -Wa,-gstabs -o test_bitop.o test_bitop.s
 	sh-elf-gcc -c -Wa,-gstabs -o test_datatrans.o test_datatrans.s
