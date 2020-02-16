@@ -10,4 +10,4 @@ all:
 	sh-elf-ld -Tsh7262_boot.ld -nostartfiles -o bootrom.elf asmfunc.o test_bitop.o test_datatrans.o test_sysctrl.o test_bra.o test_arithop.o test_fpop.o main.o
 	sh-elf-objcopy -j .text -j .data -O binary bootrom.elf bootrom.bin
 clean:
-	rm bootrom.elf bootrom.bin asmfunc.o test_bitop.o test_datatrans.o test_sysctrl.o test_bra.o test_arithop.o test_fpop.o
+	rm bootrom.elf bootrom.bin main.o asmfunc.o test_bitop.o test_datatrans.o test_sysctrl.o test_bra.o test_arithop.o test_fpop.o
