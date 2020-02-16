@@ -1,0 +1,39 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Debug with qemu within Docker",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/workspace/bootrom.elf",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "/workspace",
+            "environment": [],
+            "externalConsole": true,
+            "pipeTransport": {
+                "pipeCwd": "/workspace",
+                "pipeProgram": "docker.exe",
+                "pipeArgs": ["exec","-i","debug_sh","sh","-c"],
+                "debuggerPath": "/usr/local/sh-tools/bin/sh-elf-gdb -x gdb.cmd bootrom.elf"
+            },
+            "MIMode": "gdb",
+            //"miDebuggerPath": "/path/to/gdb",
+            "setupCommands": [
+                {
+                    "description": "gdb の再フォーマットを有効にする",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "prelaunch gdb",
+            "postDebugTask": "postdebug gdb",
+            "sourceFileMap": {
+                "/workspace": "${workspaceFolder}"
+            }
+        }
+    ]
+}
