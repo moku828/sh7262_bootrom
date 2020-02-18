@@ -93,7 +93,7 @@ void io_cmd_exe_rdmode(unsigned char *ope, int ope_sz, unsigned char *rd, int rd
 	SPBFCR_0 = 0xC0;
 	SPBFCR_0 = 0x00;
 
-	SPDCR_0 = (SPDCR_0 & 0x7f) | 0x10;
+	SPDCR_0 = (SPDCR_0 & 0x7f) | 0x80;
 	while (rd_sz--)
 	{
 		while ((SPSR_0 & 0x80) == 0x00)
