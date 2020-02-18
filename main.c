@@ -78,7 +78,7 @@ void io_cmd_exe_rdmode(unsigned char *ope, int ope_sz, unsigned char *rd, int rd
 	SPBFCR_0 = 0xC0;
 	SPBFCR_0 = 0x00;
 
-	SPCR_0 = 0x40;
+	SPCR_0 = SPCR_0 | 0x40;
 
 	SPCMD_00 = (SPCMD_00 & 0xfffc) | 0x0002;
 
