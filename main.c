@@ -78,7 +78,7 @@ void io_cmd_exe_rdmode(unsigned char *ope, int ope_sz, unsigned char *rd, int rd
 	SPBFCR_0 = 0xC0;
 	SPBFCR_0 = 0x00;
 
-	SPCR_0 = SPCR_0 | 0x40;
+	SPCR_0 |= 0x40;
 
 	SPCMD_00 = (SPCMD_00 & 0xfffc) | 0x0002;
 
@@ -103,6 +103,8 @@ void io_cmd_exe_rdmode(unsigned char *ope, int ope_sz, unsigned char *rd, int rd
 	}
 	SPDCR_0 = (SPDCR_0 & 0x7f) | 0x00;
 	io_wait_tx_end();
+
+	SPCR_0 &= ~0x40;
 }
 
 void sf_byte_read(unsigned long addr, unsigned char *buf, int size)
