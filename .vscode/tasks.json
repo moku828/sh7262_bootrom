@@ -16,9 +16,26 @@
             "args": ["run", "--rm", "-it", "-v${workspaceFolder}:/workspace", "sh-tools/make", "clean"]
         },
         {
+            "label": "terminal monitor",
+            "type": "shell",
+            "command": "sleep 3; Start-Process -FilePath telnet -ArgumentList 127.0.0.1,1201 -NoNewWindow"
+        },
+        {
+            "label": "terminal irq",
+            "type": "shell",
+            "command": "sleep 3; Start-Process -FilePath telnet -ArgumentList 127.0.0.1,1202 -NoNewWindow"
+        },
+        {
             "label": "prelaunch gdb",
             "type": "shell",
             "command": "docker run --rm -i -d -v${workspaceFolder}:/workspace -p 1201:1201 -p 1202:1202 --name qemu00 sh-tools/qemu -monitor telnet:0.0.0.0:1201,server,nowait -serial tcp::1202,server,nodelay -drive file=SPIROM.IMG,if=mtd,format=raw -s -S; docker run --privileged -v${workspaceFolder}:/workspace --name debug_sh -i -d --entrypoint=/bin/sh --link qemu00:qemu00 sh-tools/gdb"
+        },
+        {
+            "label": "prelaunch gdb-pkg",
+            "type": "shell",
+            "dependsOn":["terminal monitor", "terminal irq", "prelaunch gdb"],
+            "dependsOrder": "parallel",
+            "command": "echo done"
         },
         {
             "label": "postdebug gdb",
