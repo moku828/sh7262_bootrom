@@ -41,6 +41,16 @@
             "label": "postdebug gdb",
             "type": "shell",
             "command": "docker ps -a -f \"name=debug_sh\" -q | % { docker kill $_ }; docker ps -a -f \"name=debug_sh\" -q | % { docker rm $_ }; docker ps -a -f \"name=qemu00\" -q | % { docker kill $_ }"
+        },
+        {
+            "label": "prelaunch gdb(HUDI)",
+            "type": "shell",
+            "command": "docker run --privileged -v${workspaceFolder}:/workspace --name debug_sh -i -d --entrypoint=/bin/sh sh-tools/gdb"
+        },
+        {
+            "label": "postdebug gdb(HUDI)",
+            "type": "shell",
+            "command": "docker ps -a -f \"name=debug_sh\" -q | % { docker kill $_ }; docker ps -a -f \"name=debug_sh\" -q | % { docker rm $_ }"
         }
     ]
 }
