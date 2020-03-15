@@ -7,13 +7,13 @@
             "label": "make",
             "type": "shell",
             "command": "docker",
-            "args": ["run", "--rm", "-it", "-v${workspaceFolder}:/workspace", "sh-tools/make"]
+            "args": ["run", "--rm", "-it", "-v${workspaceFolder}:/workspace", "sh-tools/make:gcc-3.4.5"]
         },
         {
             "label": "make clean",
             "type": "shell",
             "command": "docker",
-            "args": ["run", "--rm", "-it", "-v${workspaceFolder}:/workspace", "sh-tools/make", "clean"]
+            "args": ["run", "--rm", "-it", "-v${workspaceFolder}:/workspace", "sh-tools/make:gcc-3.4.5", "clean"]
         },
         {
             "label": "terminal monitor",
