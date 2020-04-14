@@ -29,8 +29,39 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "prelaunch gdb",
+            "preLaunchTask": "prelaunch gdb-pkg",
             "postDebugTask": "postdebug gdb",
+            "sourceFileMap": {
+                "/workspace": "${workspaceFolder}"
+            }
+        },
+        {
+            "name": "Debug the target via H-UDI",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "/workspace/bootrom.elf",
+            "args": [],
+            "stopAtEntry": true,
+            "cwd": "/workspace",
+            "environment": [],
+            "externalConsole": true,
+            "pipeTransport": {
+                "pipeCwd": "/workspace",
+                "pipeProgram": "docker.exe",
+                "pipeArgs": ["exec","-i","debug_sh","sh","-c"],
+                "debuggerPath": "/usr/local/sh-tools/bin/sh-elf-gdb -x gdb_hudi.cmd bootrom.elf"
+            },
+            "MIMode": "gdb",
+            //"miDebuggerPath": "/path/to/gdb",
+            "setupCommands": [
+                {
+                    "description": "gdb の再フォーマットを有効にする",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "prelaunch gdb(HUDI)",
+            "postDebugTask": "postdebug gdb(HUDI)",
             "sourceFileMap": {
                 "/workspace": "${workspaceFolder}"
             }

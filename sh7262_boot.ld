@@ -4,7 +4,7 @@ ENTRY("test_start");
 /* SH72620 Available Memory */
 MEMORY
 {
-  BOOTROM (x) : ORIGIN = 0x40000000, LENGTH = 64k	/* Boot ROM: 64k */
+  BOOTROM (x) : ORIGIN = 0xA0000000, LENGTH = 64k	/* Boot ROM: 64k */
   FRAM (wx) : ORIGIN = 0xFFF80000, LENGTH = 64k         /* Fast SRAM: 64k */
 }
 
