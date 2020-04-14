@@ -18,12 +18,12 @@
         {
             "label": "terminal monitor",
             "type": "shell",
-            "command": "sleep 3; Start-Process -FilePath telnet -ArgumentList 127.0.0.1,1201 -NoNewWindow"
+            "command": "sleep 4; Start-Process -FilePath telnet -ArgumentList 127.0.0.1,1201 -WindowStyle Minimized"
         },
         {
             "label": "terminal irq",
             "type": "shell",
-            "command": "sleep 3; Start-Process -FilePath telnet -ArgumentList 127.0.0.1,1202 -NoNewWindow"
+            "command": "sleep 2; Start-Process -FilePath telnet -ArgumentList 127.0.0.1,1202 -WindowStyle Minimized"
         },
         {
             "label": "prelaunch gdb",
