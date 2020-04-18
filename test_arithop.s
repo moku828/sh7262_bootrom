@@ -211,7 +211,7 @@ test_38:
         DIVS    R0, R1
         MOV.L   exp_signed_long_max_divided_by_2, R0
         CMP/EQ  R0, R1
-        BF      test_39_failed
+        BF      test_38_failed
         NOP
 
         MOV     #6, R14
@@ -220,7 +220,7 @@ test_38:
         DIVS    R0, R1
         MOV.L   exp_signed_long_min_divided_by_2, R0
         CMP/EQ  R0, R1
-        BF      test_39_failed
+        BF      test_38_failed
         NOP
 
         MOV     #7, R14
