@@ -50,6 +50,9 @@ test_46:
         MOV     #46, R13
 
         MOV     #1, R14
+        MOV.W   ibnr_ena, R1
+        MOV.L   ibnr, R0
+        MOV.W   R1, @R0
         MOV.L   vbr_IRQ, R0
         MOV.L   back_1_test_46, R1
         MOV.L   R1, @(256,R0)
@@ -80,6 +83,12 @@ wait_for_IRQ:
 back_1_test_46_:
         MOV     #1, R3
         RESBANK
+        MOV.W   irqrr_clr, R1
+        MOV.L   irqrr, R0
+        MOV.W   R1, @R0
+        MOV.W   ibnr_dis, R1
+        MOV.L   ibnr, R0
+        MOV.W   R1, @R0
         MOV     #1, R0
         RTE
 	NOP
@@ -153,6 +162,17 @@ test_sysctrl_succeed:
         .align 4
 imask_f:
         .long 0x000000F0
+ibnr_ena:
+        .word 0x4000
+ibnr_dis:
+        .word 0x0000
+ibnr:
+        .long 0xFFFE080E
+irqrr_clr:
+        .word 0x0000
+        .word 0xdead
+irqrr:
+        .long 0xFFFE0806
 bn0_en3:
         .long _bn0_en3
 _bn0_en3:
