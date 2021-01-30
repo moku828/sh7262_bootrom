@@ -49,9 +49,9 @@ static void SetVBR(unsigned long val)
 
 void (*vectors[])(void) __attribute__((section(".rodata"))) = {
 	(void*)system_down,
-	(void*)0xFFF83000,
+	(void*)0xA8FF3000/*0xFFF83000*/,
 	(void*)system_down,
-	(void*)0xFFF83000,
+	(void*)0xA8FF3000/*0xFFF83000*/,
 	(void*)system_down,
 	(void*)system_down,
 	(void*)system_down,
@@ -134,12 +134,14 @@ void main(void)
 	/* 割り込みマスク */
 	SetImask(15);
 
-/*	{
+/**/	{
 		volatile int a = 3;
 		volatile int b = 9;
 		volatile int c;
 		c = b / a;
-	}*/
+		c = c;
+	}/**/
+	
 
 	/* 周波数制御レジスタ（FRQCR）の設定 */
 	FRQCR = 0x1104;	/* クロック設定: I=144M, B=48M, P=24M */
@@ -167,19 +169,19 @@ void main(void)
 	SPCR_0 = 0x48;
 
 	/* ローダプログラムの転送 */
-	sf_byte_read(0, (unsigned char*)0xFFF80000, 0x2000/*0x10*/);
+	sf_byte_read(0, (unsigned char*)0xA8FF0000/*0xFFF80000*/, 0x2000/*0x10*/);
 
 	/* キャッシュのライトバック処理 */
 	/* キャッシュ有効化してなければライトバックしなくて良い? */
 
 	/* ローダプログラムのスタックポインタを設定 */
 	/*__asm__("movi20 #-487424,sp");*/
-	__asm__("mov %0,sp" : : "r" (0xFFF89000));
+	__asm__("mov %0,sp" : : "r" (0xA8FF9000/*0xFFF89000*/));
 
 	/* ローダプログラムのエントリ関数に分岐 */
 	/*__asm__("jmp @r1");
 	__asm__("movi20 #-524288,r1");*/
-	((void (*)(void))0xFFF80000)();
+	((void (*)(void))0xA8FF0000/*0xFFF80000*/)();
 
 	halt();
 }

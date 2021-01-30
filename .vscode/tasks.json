@@ -4,53 +4,36 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "make",
+            "label": "build",
             "type": "shell",
-            "command": "docker",
-            "args": ["run", "--rm", "-it", "-v${workspaceFolder}:/workspace", "sh-tools/make:gcc-3.4.5"]
+            "command": "make",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         },
         {
-            "label": "make clean",
+            "label": "clean",
             "type": "shell",
-            "command": "docker",
-            "args": ["run", "--rm", "-it", "-v${workspaceFolder}:/workspace", "sh-tools/make:gcc-3.4.5", "clean"]
+            "command": "make clean",
+            "group": "build"
         },
         {
-            "label": "terminal monitor",
+            "label": "kill qemu",
             "type": "shell",
-            "command": "sleep 4; Start-Process -FilePath telnet -ArgumentList 127.0.0.1,1201 -WindowStyle Minimized"
-        },
-        {
-            "label": "terminal irq",
-            "type": "shell",
-            "command": "sleep 2; Start-Process -FilePath telnet -ArgumentList 127.0.0.1,1202 -WindowStyle Minimized"
+            "command": "ps aux | grep qemu-system-sh4eb | grep -v grep | awk '{ print \"kill -9\", $2 }' | sh"
         },
         {
             "label": "prelaunch gdb",
             "type": "shell",
-            "command": "docker run --privileged -v${workspaceFolder}:/workspace --name debug_sh -i -d --entrypoint=/bin/sh --link qemu00:qemu00 sh-tools/gdb"
-        },
-        {
-            "label": "prelaunch gdb-pkg",
-            "type": "shell",
-            "dependsOn":["terminal monitor", "terminal irq", "prelaunch gdb"],
-            "dependsOrder": "parallel",
-            "command": "echo done"
+            "command": "qemu-system-sh4eb -daemonize -s -S",
+            "dependsOn": ["kill qemu"]
         },
         {
             "label": "postdebug gdb",
             "type": "shell",
-            "command": "docker ps -a -f \"name=debug_sh\" -q | % { docker kill $_ }; docker ps -a -f \"name=debug_sh\" -q | % { docker rm $_ }; docker ps -a -f \"name=qemu00\" -q | % { docker kill $_ }"
-        },
-        {
-            "label": "prelaunch gdb(HUDI)",
-            "type": "shell",
-            "command": "docker run --privileged -v${workspaceFolder}:/workspace --name debug_sh -i -d --entrypoint=/bin/sh sh-tools/gdb"
-        },
-        {
-            "label": "postdebug gdb(HUDI)",
-            "type": "shell",
-            "command": "docker ps -a -f \"name=debug_sh\" -q | % { docker kill $_ }; docker ps -a -f \"name=debug_sh\" -q | % { docker rm $_ }"
+            "command": "echo Done",
+            "dependsOn": ["kill qemu"]
         }
     ]
 }

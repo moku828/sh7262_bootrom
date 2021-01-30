@@ -5,7 +5,8 @@ ENTRY("boot_mode1");
 MEMORY
 {
   BOOTROM (x) : ORIGIN = 0xA0000000, LENGTH = 64k	/* Boot ROM: 64k */
-  FRAM (wx) : ORIGIN = 0xFFF80000, LENGTH = 64k         /* Fast SRAM: 64k */
+  FRAM (wx) : ORIGIN = 0xA8000000, LENGTH = 16M	/* SDRAM(1): 16M */
+  /*FRAM (wx) : ORIGIN = 0xFFF80000, LENGTH = 64k*/         /* Fast SRAM: 64k */
 }
 
 

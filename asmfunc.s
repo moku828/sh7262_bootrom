@@ -17,7 +17,7 @@ boot_mode1:
 fp_main:
 	.long	_main
 stack_boot:
-	.long	0xFFF83000
+	.long	0xA8FF3000/*0xFFF83000*/
 /*fpscr_init:*/
 /*	.long	0x00040001*/
 

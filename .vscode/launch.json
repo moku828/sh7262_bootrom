@@ -5,66 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug@QEMU",
+            "name": "(gdb) Launch",
             "type": "cppdbg",
             "request": "launch",
-            "program": "/workspace/bootrom.elf",
+            "program": "${workspaceFolder}/bootrom.elf",
             "args": [],
-            "stopAtEntry": true,
-            "cwd": "/workspace",
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
             "environment": [],
-            "externalConsole": true,
-            "pipeTransport": {
-                "pipeCwd": "/workspace",
-                "pipeProgram": "docker.exe",
-                "pipeArgs": ["exec","-i","debug_sh","sh","-c"],
-                "debuggerPath": "/usr/local/sh-tools/bin/sh-elf-gdb -x gdb.cmd bootrom.elf"
-            },
+            "externalConsole": false,
             "MIMode": "gdb",
-            //"miDebuggerPath": "/path/to/gdb",
-            "setupCommands": [
-                {
-                    "description": "gdb の再フォーマットを有効にする",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            "preLaunchTask": "prelaunch gdb-pkg",
-            "postDebugTask": "postdebug gdb",
-            "sourceFileMap": {
-                "/workspace": "${workspaceFolder}"
-            }
-        },
-        {
-            "name": "Debug@TARGET",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "/workspace/bootrom.elf",
-            "args": [],
-            "stopAtEntry": true,
-            "cwd": "/workspace",
-            "environment": [],
-            "externalConsole": true,
-            "pipeTransport": {
-                "pipeCwd": "/workspace",
-                "pipeProgram": "docker.exe",
-                "pipeArgs": ["exec","-i","debug_sh","sh","-c"],
-                "debuggerPath": "/usr/local/sh-tools/bin/sh-elf-gdb -x gdb_hudi.cmd bootrom.elf"
-            },
-            "MIMode": "gdb",
-            //"miDebuggerPath": "/path/to/gdb",
-            "setupCommands": [
-                {
-                    "description": "gdb の再フォーマットを有効にする",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                }
-            ],
-            "preLaunchTask": "prelaunch gdb(HUDI)",
-            "postDebugTask": "postdebug gdb(HUDI)",
-            "sourceFileMap": {
-                "/workspace": "${workspaceFolder}"
-            }
+            "miDebuggerPath": "/usr/local/bin/sh-elf-gdb",
+            "miDebuggerArgs": "-ex \"target remote :1234\"",
+            "preLaunchTask": "prelaunch gdb",
+            "postDebugTask": "postdebug gdb"
         }
     ]
 }
